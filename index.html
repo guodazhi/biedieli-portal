@@ -1,165 +1,108 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>别迭里中吉公路与口岸工程进度情报门户</title>
-    <style>
-        :root {
-            --primary-color: #0d2b45;
-            --accent-color: #0077b6;
-            --bg-color: #f8f9fa;
-            --card-bg: #ffffff;
-            --text-color: #2b2d42;
-        }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            margin: 0;
-            padding: 0;
-        }
-        header {
-            background-color: var(--primary-color);
-            color: #fff;
-            padding: 24px 40px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-        header h1 {
-            margin: 0;
-            font-size: 24px;
-            letter-spacing: 1px;
-        }
-        header p {
-            margin: 8px 0 0 0;
-            font-size: 14px;
-            color: #a0aec0;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 32px auto;
-            padding: 0 20px;
-        }
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 24px;
-        }
-        .card {
-            background: var(--card-bg);
-            border-radius: 8px;
-            padding: 24px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-            border-top: 4px solid var(--accent-color);
-        }
-        .card h2 {
-            font-size: 18px;
-            margin-top: 0;
-            color: var(--primary-color);
-            border-bottom: 1px solid #edf2f7;
-            padding-bottom: 12px;
-        }
-        .progress-bar-container {
-            background-color: #e2e8f0;
-            border-radius: 12px;
-            height: 20px;
-            overflow: hidden;
-            margin: 16px 0;
-        }
-        .progress-bar {
-            background-color: var(--accent-color);
-            height: 100%;
-            width: 65%;
-            text-align: right;
-            padding-right: 10px;
-            color: white;
-            font-size: 12px;
-            line-height: 20px;
-            font-weight: bold;
-        }
-        .info-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        .info-list li {
-            padding: 10px 0;
-            border-bottom: 1px dashed #e2e8f0;
-            font-size: 14px;
-            display: flex;
-            justify-content: space-between;
-        }
-        .info-list li span.date {
-            color: #718096;
-            font-size: 12px;
-        }
-        .btn-download {
-            display: inline-block;
-            background-color: var(--primary-color);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 6px;
-            text-decoration: none;
-            font-size: 14px;
-            margin-top: 12px;
-            transition: background 0.2s;
-        }
-        .btn-download:hover {
-            background-color: var(--accent-color);
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>中吉别迭里公路与口岸工程动态监测门户</title>
+  <!-- 引入 Leaflet 地图样式 -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; background-color: #f4f6f9; color: #333; }
+    header { background-color: #0b1d3a; color: #fff; padding: 20px 30px; }
+    header h1 { font-size: 22px; font-weight: 600; letter-spacing: 0.5px; }
+    header p { font-size: 13px; color: #8fa3c0; margin-top: 6px; }
+    .container { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; padding: 25px 30px; max-width: 1400px; margin: 0 auto; }
+    .card { background: #fff; border-radius: 10px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #e1e6ed; }
+    .card-title { font-size: 16px; font-weight: 600; color: #0b1d3a; margin-bottom: 15px; display: flex; align-items: center; gap: 8px; }
+    .progress-bar-bg { background: #e9ecef; border-radius: 10px; height: 18px; width: 100%; overflow: hidden; margin: 10px 0 15px 0; }
+    .progress-bar-fill { background: #0052cc; height: 100%; text-align: center; color: #fff; font-size: 11px; line-height: 18px; font-weight: bold; transition: width 0.5s ease; }
+    .info-list { list-style: none; font-size: 14px; }
+    .info-item { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px dashed #eee; }
+    .info-item:last-child { border-bottom: none; }
+    .date { color: #888; font-size: 12px; }
+    #map { width: 100%; height: 220px; border-radius: 8px; z-index: 1; }
+    .btn { display: inline-block; background: #0b1d3a; color: #fff; text-decoration: none; padding: 8px 16px; border-radius: 6px; font-size: 13px; font-weight: 500; margin-top: 15px; width: 100%; text-align: center; }
+    .btn:hover { background: #162d54; }
+  </style>
 </head>
 <body>
 
-<header>
-    <h1>中吉别迭里公路与口岸工程动态情报系统</h1>
-    <p>实时监控吉方施工进度 · 遥感数据监测 · 政策动态分析</p>
-</header>
+  <header>
+    <h1 id="portal-title">中吉别迭里公路与口岸工程动态监测门户</h1>
+    <p id="portal-subtitle">实时监控吉方施工进度 · 遥感数据监测 · 政策动态分析</p>
+  </header>
 
-<div class="container">
-    <div class="grid">
-        <!-- 施工进度仪表盘 -->
-        <div class="card">
-            <h2>🛣️ 巴尔斯考恩-别迭里段施工进度</h2>
-            <p style="font-size: 14px; color: #4a5568;">吉尔吉斯斯坦侧道路主体工程推进情况：</p>
-            <div class="progress-bar-container">
-                <div class="progress-bar">65%</div>
-            </div>
-            <ul class="info-list">
-                <li><span>标段一：路基平整与拓宽</span> <strong>已完成 85%</strong></li>
-                <li><span>标段二：桥梁与涵洞施工</span> <strong>进度 50%</strong></li>
-                <li><span>预估全线竣工通车时间</span> <strong style="color: #c53030;">2027年Q2</strong></li>
-            </ul>
-        </div>
-
-        <!-- CDSE 遥感监测视窗 -->
-        <div class="card">
-            <h2>🛰️ 别迭里口岸哨兵卫星遥感视窗</h2>
-            <p style="font-size: 14px; color: #4a5568;">数据源：欧洲航天局 CDSE Sentinel-2（定点坐标监测）</p>
-            <div style="background: #edf2f7; height: 180px; border-radius: 6px; display: flex; align-items: center; justify-content: center; color: #718096; font-size: 14px;">
-                [ ESA CDSE 动态遥感影像接入区 ]
-            </div>
-            <p style="font-size: 12px; color: #718096; margin-top: 8px;">最近云层覆盖率 &lt; 5% 的图像更新时间：2026-10-08</p>
-        </div>
-
-        <!-- 乌什县政府专属情报简报区 -->
-        <div class="card">
-            <h2>📋 乌什县商务局/口岸办专属情报</h2>
-            <p style="font-size: 14px; color: #4a5568;">自动抓取并经 Gemini 智能解析的对岸最新政策与工程简报：</p>
-            <ul class="info-list">
-                <li>
-                    <span>吉交通部发布别迭里公路资金拨付明细</span>
-                    <span class="date">2026-10-08</span>
-                </li>
-                <li>
-                    <span>伊塞克湖州对华边贸物流通道优惠政策</span>
-                    <span class="date">2026-09-28</span>
-                </li>
-            </ul>
-            <a href="#" class="btn-download">下载本周 PDF 完整简报</a>
-        </div>
+  <div class="container">
+    <!-- 卡片 1: 工程进度 -->
+    <div class="card">
+      <div class="card-title">🗺️ 巴尔斯考恩-别迭里段施工进度</div>
+      <p style="font-size: 13px; color: #666;" id="progress-desc">吉尔吉斯斯坦侧道路主体工程推进情况：</p>
+      <div class="progress-bar-bg">
+        <div class="progress-bar-fill" id="main-progress" style="width: 0%;">0%</div>
+      </div>
+      <ul class="info-list" id="section-list">
+        <!-- 动态读取渲染 -->
+      </ul>
     </div>
-</div>
 
+    <!-- 卡片 2: Leaflet 交互式卫星地图 -->
+    <div class="card">
+      <div class="card-title">🛰️ 别迭里口岸哨兵卫星遥感视窗</div>
+      <div id="map"></div>
+      <p style="font-size: 12px; color: #888; margin-top: 10px;" id="satellite-info">最近云层覆盖率 &lt; 5% 的图像更新时间：加载中...</p>
+    </div>
+
+    <!-- 卡片 3: 决策简报 -->
+    <div class="card">
+      <div class="card-title">📋 乌什县商务局/口岸办专属决策简报</div>
+      <p style="font-size: 13px; color: #666; margin-bottom: 10px;">自动抓取并经 Gemini 智能解析的对岸最新政策与工程简报：</p>
+      <ul class="info-list" id="report-list">
+        <!-- 动态读取渲染 -->
+      </ul>
+      <a href="#" class="btn" id="download-btn">下载本周 PDF 完整简报</a>
+    </div>
+  </div>
+
+  <!-- 引入 Leaflet 地图 JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+    // 初始化 Leaflet 地图
+    var map = L.map('map').setView([41.18, 78.38], 11);
+    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+      maxZoom: 18,
+      attribution: 'Tiles &copy; Esri World Imagery'
+    }).addTo(map);
+
+    // 动态加载 data.json 配置文件
+    fetch('data.json?t=' + new Date().getTime())
+      .then(response => response.json())
+      .then(data => {
+        // 1. 更新工程进度
+        document.getElementById('main-progress').style.width = data.main_progress + '%';
+        document.getElementById('main-progress').innerText = data.main_progress + '%';
+        
+        var sectionHtml = '';
+        data.sections.forEach(sec => {
+          sectionHtml += `<li class="info-item"><span>${sec.name}</span><span style="font-weight:600; color:${sec.color || '#333'}">${sec.status}</span></li>`;
+        });
+        document.getElementById('section-list').innerHTML = sectionHtml;
+
+        // 2. 更新地图标记
+        data.map_markers.forEach(marker => {
+          var m = L.marker([marker.lat, marker.lng]).addTo(map);
+          m.bindPopup(`<b>${marker.title}</b><br>${marker.desc}`);
+        });
+        document.getElementById('satellite-info').innerText = '最近云层覆盖率 < 5% 的图像更新时间：' + data.satellite_update;
+
+        // 3. 更新简报动态
+        var reportHtml = '';
+        data.reports.forEach(rep => {
+          reportHtml += `<li class="info-item"><span>${rep.title}</span><span class="date">${rep.date}</span></li>`;
+        });
+        document.getElementById('report-list').innerHTML = reportHtml;
+      })
+      .catch(err => console.error('加载 data.json 失败:', err));
+  </script>
 </body>
 </html>
