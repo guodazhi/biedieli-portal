@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>别迭里中吉公路与口岸工程进度情报门户</title>
+    <style>
+        :root {
+            --primary-color: #0d2b45;
+            --accent-color: #0077b6;
+            --bg-color: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-color: #2b2d42;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: var(--primary-color);
+            color: #fff;
+            padding: 24px 40px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+            letter-spacing: 1px;
+        }
+        header p {
+            margin: 8px 0 0 0;
+            font-size: 14px;
+            color: #a0aec0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 32px auto;
+            padding: 0 20px;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 24px;
+        }
+        .card {
+            background: var(--card-bg);
+            border-radius: 8px;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            border-top: 4px solid var(--accent-color);
+        }
+        .card h2 {
+            font-size: 18px;
+            margin-top: 0;
+            color: var(--primary-color);
+            border-bottom: 1px solid #edf2f7;
+            padding-bottom: 12px;
+        }
+        .progress-bar-container {
+            background-color: #e2e8f0;
+            border-radius: 12px;
+            height: 20px;
+            overflow: hidden;
+            margin: 16px 0;
+        }
+        .progress-bar {
+            background-color: var(--accent-color);
+            height: 100%;
+            width: 65%;
+            text-align: right;
+            padding-right: 10px;
+            color: white;
+            font-size: 12px;
+            line-height: 20px;
+            font-weight: bold;
+        }
+        .info-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .info-list li {
+            padding: 10px 0;
+            border-bottom: 1px dashed #e2e8f0;
+            font-size: 14px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .info-list li span.date {
+            color: #718096;
+            font-size: 12px;
+        }
+        .btn-download {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 14px;
+            margin-top: 12px;
+            transition: background 0.2s;
+        }
+        .btn-download:hover {
+            background-color: var(--accent-color);
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>中吉别迭里公路与口岸工程动态情报系统</h1>
+    <p>实时监控吉方施工进度 · 遥感数据监测 · 政策动态分析</p>
+</header>
+
+<div class="container">
+    <div class="grid">
+        <!-- 施工进度仪表盘 -->
+        <div class="card">
+            <h2>🛣️ 巴尔斯考恩-别迭里段施工进度</h2>
+            <p style="font-size: 14px; color: #4a5568;">吉尔吉斯斯坦侧道路主体工程推进情况：</p>
+            <div class="progress-bar-container">
+                <div class="progress-bar">65%</div>
+            </div>
+            <ul class="info-list">
+                <li><span>标段一：路基平整与拓宽</span> <strong>已完成 85%</strong></li>
+                <li><span>标段二：桥梁与涵洞施工</span> <strong>进度 50%</strong></li>
+                <li><span>预估全线竣工通车时间</span> <strong style="color: #c53030;">2027年Q2</strong></li>
+            </ul>
+        </div>
+
+        <!-- CDSE 遥感监测视窗 -->
+        <div class="card">
+            <h2>🛰️ 别迭里口岸哨兵卫星遥感视窗</h2>
+            <p style="font-size: 14px; color: #4a5568;">数据源：欧洲航天局 CDSE Sentinel-2（定点坐标监测）</p>
+            <div style="background: #edf2f7; height: 180px; border-radius: 6px; display: flex; align-items: center; justify-content: center; color: #718096; font-size: 14px;">
+                [ ESA CDSE 动态遥感影像接入区 ]
+            </div>
+            <p style="font-size: 12px; color: #718096; margin-top: 8px;">最近云层覆盖率 &lt; 5% 的图像更新时间：2026-10-08</p>
+        </div>
+
+        <!-- 乌什县政府专属情报简报区 -->
+        <div class="card">
+            <h2>📋 乌什县商务局/口岸办专属情报</h2>
+            <p style="font-size: 14px; color: #4a5568;">自动抓取并经 Gemini 智能解析的对岸最新政策与工程简报：</p>
+            <ul class="info-list">
+                <li>
+                    <span>吉交通部发布别迭里公路资金拨付明细</span>
+                    <span class="date">2026-10-08</span>
+                </li>
+                <li>
+                    <span>伊塞克湖州对华边贸物流通道优惠政策</span>
+                    <span class="date">2026-09-28</span>
+                </li>
+            </ul>
+            <a href="#" class="btn-download">下载本周 PDF 完整简报</a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
